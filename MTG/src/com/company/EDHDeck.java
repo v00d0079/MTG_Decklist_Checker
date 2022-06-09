@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EDHDeck {
-    Card[] decklist=new Card[91];
+    Card[] decklist=new Card[100];
 
     EDHDeck(Card[]decklist){
         this.decklist=decklist;
@@ -14,14 +14,14 @@ public class EDHDeck {
     public boolean isEligable(EDHDeck prospective){
         int nonbasicland=0;
         for(int i=0;i<prospective.decklist.length;i++){
-            if(prospective.decklist[i].getType()!="Basic Land"){
+            if(prospective.decklist[i].getType().contains("Basic Land")!=true){
                 nonbasicland++;
             }
         }
         String[] nonbasiclands=new String[nonbasicland];
         int i=0;
         for(Card c: prospective.decklist){
-            if(c.getType()!="Basic Land"){
+            if(c.getType().contains("Basic Land")!=true){
                 nonbasiclands[i]=c.getName();
                 i++;
             }

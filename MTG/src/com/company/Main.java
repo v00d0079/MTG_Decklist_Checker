@@ -2,48 +2,52 @@ package com.company;
 import java.io.*;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-
-import java.util.*;
+import static java.lang.System.exit;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 	// write your code here
-        System.out.println("Fuck this stupid asss game\n");
-       /* Card mnt = new Card("Mountain", "Basic Land",0,0,"{}",0,"tap for 1 {R} mana");
-        Card gob = new Card("Torbran, Thane of Red Fell","Creature", 2,4,"{1}{R}{R}{R}",4,"if a red source you control would deal damage to an opponent or a permanent an opponent controls, it deals that much damage plus 2 instead.");
-        Card[] mm=new Card[99];
-        mm[0] = new Card("Torbran, Thane of Red Fell","Creature", 2,4,"{1}{R}{R}{R}",4,"if a red source you control would deal damage to an opponent or a permanent an opponent controls, it deals that much damage plus 2 instead.");
-        for(int i=1; i< mm.length-1; i++){
-            mm[i]=mnt;
-        }
-        mm[98] = new Card("Torbran, Thane of Red Fell","Creature", 2,4,"{1}{R}{R}{R}",4,"if a red source you control would deal damage to an opponent or a permanent an opponent controls, it deals that much damage plus 2 instead.");
-        EDHDeck test= new EDHDeck(gob,mm);
-        test.commander.printCard();
-        for(Card c: mm){
-            c.printCard();
-        }
-
-        System.out.println("The deck given is eligable for the format "+ test.isEligable(test));
-        */
         File decklist = new File("src\\test.txt");
-        Card[] mm=new Card[91];
+        Card[] mm=new Card[100];
         BufferedReader br = new BufferedReader(new FileReader(decklist));
         JSONParser parser=new JSONParser();
         JSONArray a = (JSONArray) parser.parse(new FileReader("src\\default-cards-20220531090359.json"));
         String ln;
-        int i=0;
+        int i=0,cardcnt = 0;
+
+        System.out.println("Fuck this stupid asss game\n");
+
+        while((ln=br.readLine())!=null){
+            cardcnt+=Integer.parseInt(ln.substring(0,ln.indexOf(' ')));
+            if(cardcnt>100){
+                System.out.println("There are too many cards for the specified format!");
+                exit(-1);
+            }
+        }
+        System.out.println("Number of Cards in deck: "+cardcnt);
+        br.close();
+        br=new BufferedReader(new FileReader(decklist));
         while((ln= br.readLine())!=null) {
-            String sort = ln.substring(2, ln.length());
+            String cardname = ln.substring(2, ln.length());
+            int numof = Character.getNumericValue(ln.charAt(0));
             for (Object o : a) {
                 JSONObject card = (JSONObject) o;
                 String name = (String) card.get("name");
-                if (name.equals(sort)) {
-                   mm[i]=new Card((String) card.get("name"),(String) card.get("type_line"),(String) card.get("power"),(String) card.get("toughness"),(String) card.get("mana_cost"),(double) card.get("cmc"),(String) card.get("oracle_text"));
-                    //System.out.println((int) card.get("power")+" "+(int) card.get("toughness"));
-                    //System.out.println((String) card.get("name") +" "+(String) card.get("lang") +" "+ (String) card.get("mana_cost")+" " + (double) card.get("cmc")+" " + (String) card.get("type_line") +" "+ (String) card.get("oracle_text"));
-                    //System.out.println();
-                    i++;
+                if (name.equals(cardname)) {
+                    if(numof>1){
+                        for(int j=0;j<numof;j++) {
+                            System.out.println("Num of = "+numof);
+                            mm[i] = new Card((String) card.get("name"), (String) card.get("type_line"), (String) card.get("power"), (String) card.get("toughness"), (String) card.get("mana_cost"), (double) card.get("cmc"), (String) card.get("oracle_text"));
+                            i++;
+                        }
+                    }else {
+                        mm[i] = new Card((String) card.get("name"), (String) card.get("type_line"), (String) card.get("power"), (String) card.get("toughness"), (String) card.get("mana_cost"), (double) card.get("cmc"), (String) card.get("oracle_text"));
+                        //System.out.println((int) card.get("power")+" "+(int) card.get("toughness"));
+                        //System.out.println((String) card.get("name") +" "+(String) card.get("lang") +" "+ (String) card.get("mana_cost")+" " + (double) card.get("cmc")+" " + (String) card.get("type_line") +" "+ (String) card.get("oracle_text"));
+                        //System.out.println();
+                        i++;
+                    }
                     break;
                 }
             }
