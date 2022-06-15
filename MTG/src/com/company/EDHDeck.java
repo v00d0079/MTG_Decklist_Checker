@@ -1,5 +1,7 @@
 package com.company;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +13,7 @@ public class EDHDeck {
         this.decklist=decklist;
     }
 
-    public boolean isEligable(EDHDeck prospective){
+    public boolean isEligable(@NotNull EDHDeck prospective){
         int nonbasicland=0;
         for(int i=0;i<prospective.decklist.length;i++){
             if(prospective.decklist[i].getType().contains("Basic Land")!=true){

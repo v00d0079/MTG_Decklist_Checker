@@ -1,11 +1,11 @@
 package com.company;
 
 public class Card {
-    String name,type,manacost,cardtext,power,toughness;
+    String name,type,manacost,cardtext,power,toughness,legality;
     double totalcost;
 
 
-    Card(String name,String type, String power, String toughness, String cost, double totalcost, String text){
+    Card(String name,String type, String power, String toughness, String cost, double totalcost, String text, String legality){
         this.name =name;
         this.type =type;
         this.power=power;
@@ -13,6 +13,7 @@ public class Card {
         this.manacost=cost;
         this.totalcost=totalcost;
         this.cardtext=text;
+        this.legality=legality;
     }
 
     public String getName() {
@@ -43,6 +44,8 @@ public class Card {
         return cardtext;
     }
 
+    public String getLegality(){ return legality; }
+
     public void printCard(){
         System.out.println("Name: "+getName()
                 +" Type: "+getType()
@@ -50,6 +53,8 @@ public class Card {
                 +" Toughness: "+getToughness()
                 +" Mana Cost: "+getManacost()
                 +" Converted Cost: "+getTotalcost()
-                +" Effect: "+getCardtext()+"\n");
+                +" Effect: "+getCardtext()
+                +" Legality:"+getLegality()+"\n");
+
     }
 }
